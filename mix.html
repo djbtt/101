@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歌曲详情</title>
+    <style>
+        /* 添加样式以符合你的设计需求 */
+        #comments {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>歌曲详情</h1>
+
+<div id="songDetails">
+    <!-- 这里显示歌曲的详细信息 -->
+</div>
+
+<div id="comments">
+    <h2>评论</h2>
+    <ul id="commentList"></ul>
+    <form id="commentForm">
+        <label for="commentInput">发表评论：</label>
+        <input type="text" id="commentInput" required>
+        <button type="submit">提交评论</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var songDetailsContainer = document.getElementById('songDetails');
+    var commentListContainer = document.getElementById('commentList');
+    var commentForm = document.getElementById('commentForm');
+
+    // 模拟获取歌曲详情的函数，实际中应该从后端获取
+    function getSongDetails(songID) {
+        // 这里使用假数据，实际中应该从后端获取
+        return {
+            title: '歌曲标题',
+            artist: '艺术家',
+            duration: 180
+        };
+    }
+
+    // 模拟获取评论的函数，实际中应该从后端获取
+    function getComments(songID) {
+        // 这里使用假数据，实际中应该从后端获取
+        return [
+            { user: '用户1', text: '很好听的歌曲！' },
+            { user: '用户2', text: '喜欢这首歌曲的旋律。' }
+            // 添加更多评论
+        ];
+    }
+
+    // 在页面加载时获取歌曲详情和评论
+    var urlParams = new URLSearchParams(window.location.search);
+    var songID = urlParams.get('songID');
+    var songDetails = getSongDetails(songID);
+    var comments = getComments(songID);
+
+    // 在页面上展示歌曲详情
+    songDetailsContainer.innerHTML = '<p><strong>歌曲标题:</strong> ' + songDetails.title + '</p>' +
+                                      '<p><strong>艺术家:</strong> ' + songDetails.artist + '</p>' +
+                                      '<p><strong>时长:</strong> ' + songDetails.duration + '秒</p>';
+
+    // 在页面上展示评论列表
+    comments.forEach(function(comment) {
+        var li = document.createElement('li');
+        li.innerHTML = '<strong>' + comment.user + '：</strong> ' + comment.text;
+        commentListContainer.appendChild(li);
+    });
+
+    // 处理评论表单的提交
+    commentForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        var commentInput = document.getElementById('commentInput');
+        var newComment = {
+            user: '当前用户',  // 在实际应用中应该从用户登录状态获取
+            text: commentInput.value
+        };
+
+        // 模拟将评论发送到后端保存，实际中应该使用 AJAX 或 Fetch 发送到后端
+        // 这里只是在前端展示新增的评论，实际中应该等待后端确认成功后再展示
+        var li = document.createElement('li');
+        li.innerHTML = '<strong>' + newComment.user + '：</strong> ' + newComment.text;
+        commentListContainer.appendChild(li);
+
+        // 清空评论输入框
+        commentInput.value = '';
+    });
+});
+</script>
+
+</body>
+</html>
